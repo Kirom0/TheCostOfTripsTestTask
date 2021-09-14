@@ -1,0 +1,35 @@
+<h2>Trip Calculator</h2>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <label>Количество километров
+    <input formControlName="distance" type="number">
+  </label>
+  <label>Возвраст
+    <input formControlName="age" type="number">
+  </label>
+  <label>Вес богажа
+    <input formControlName="baggageWeight" type="number">
+  </label>
+  <input type="submit">
+</form>
+
+<p>Предложения:</p>
+<section *ngFor="let company of companies">
+  <h4>{{company.name}}</h4>
+  <p *ngFor="let tariff of company.tariffs">
+    {{tariff.name}} :
+    <span *ngIf="calculatePrice(tariff) as price; else unavailable">
+      <span
+        class='discount'
+        *ngIf="price.discount"
+      >
+        {{price.sum | currency : 'RUB' : 'symbol-narrow' : '1.0-2' }}
+      </span>
+      &#32;&#32;
+      {{ price.total | currency : 'RUB' : 'symbol-narrow' : '1.0-2' }}
+    </span>
+  </p>
+</section>
+
+<ng-template #unavailable>
+  <span>Недоступно</span>
+</ng-template>
